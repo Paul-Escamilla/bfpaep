@@ -41,3 +41,47 @@ def is_3_colorable(graph):
         if is_proper_coloring(graph, coloring):
             return coloring
     return False
+
+from typing import Sequence
+def sum_of_values(value_list, keys):
+    """
+    Calculates the sum of values from a list based on a binary key sequence.
+
+    Args:
+        value_list (list): A list of numerical values.
+        keys (Sequence): A sequence of 0s and 1s, where 1 indicates inclusion of
+        the corresponding value from value_list.
+
+    Returns:
+        int or float: The sum of the selected values.
+    """
+    sum = 0
+    n = len(value_list)
+    for i in range(n):
+        sum += value_list[i]*keys[i]
+    return sum
+
+def knapsack_bf(value_list, weiht_list, value_goal, weigth_goal):
+    """
+    Solves the knapsack problem using a brute-force approach.
+    It tries to find a subset of objects that meets a minimum value goal
+    and stays within a maximum weight goal.
+
+    Args:
+        value_list (list): A list of values for each object.
+        weiht_list (list): A list of weights for each object.
+        value_goal (int or float): The minimum total value required.
+        weigth_goal (int or float): The maximum total weight allowed.
+
+    Returns:
+        tuple or bool: A tuple representing the binary selection (0 for not
+        included, 1 for included)
+                       of objects if a valid subset is found, otherwise False.
+    """
+    n = len(value_list)
+    sequences = itertools.product([0, 1], repeat=n)
+    for sequence in sequences:
+        if sum_of_values(value_list, sequence) >= value_goal:
+            if sum_of_values(weiht_list, sequence) <= weigth_goal:
+                return sequence
+    return False
